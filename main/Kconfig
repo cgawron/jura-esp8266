@@ -1,0 +1,33 @@
+menu "Jura Monitor Application Configuration"
+
+config WIFI_SSID
+    string "WIFI SSID"
+    help
+        SSID to which to connect to as client
+
+config WIFI_PASSWORD
+    string "WIFI password"
+    help
+        WIFI password for client connection
+
+config WIFI_AP_SSID
+    default "ESP32"
+    string "WIFI SSID"
+    help
+        SSID to be used for the soft AP
+
+config WIFI_AP_MAX_STA_CONN
+    default 8
+    int "maximum number of clients in soft AP mode"
+
+config MQTT_URI
+    string "MQTT URI"
+    help
+        URI of the mqtt server we connect to
+
+config NTP_SERVER
+    string "NTP server"
+    help    
+        Adress of the ntp server to use
+
+endmenu
