@@ -1,0 +1,37 @@
+sudo: false
+language: bash
+os:
+- linux
+addons:
+  apt:
+    packages:
+    - gperf
+    - python
+    - python-serial
+before_install:
+- PROJECT_PATH=$(pwd)
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: ITS+chX9eIbPaFNCJ/pcgVIMlK2RUApBy5k97YQ1vRI4x8yr1jiLMpENYfi192CgjR1c6MeCA8BDzCfh29tj0pn/6HD1K6KgLH5VtHBLsGJcx62HpD8ZnVPm+g1qBJwVwt/rgbtjqso1+6geeZJQdzUO9dZK3Y83M//IA0nM/PcrE5ylOWB48TQRT15Ma/IoIRRf8IeIdyZyUMNRuHqUYdkK10L6xbbkzXnOIZXCKUsKhfV0MiNQoUnbH0smj0sHHhr/X4O3V7yycChDoTBOzbBq/4qei54GIF8IRrS3kIFE/oeqxcIM9YqyChFNlglFEIxnrMUYEFWvzrwGvF1BG72XQpjXBgtrqP5EqoCH6u40Reh6iL3LL7bAEHU0Wu1FASJVAFuSzomxnXl+6l5EPD+Kpnha1Hl9J4tGySAdLvshEwW3Syd+Xl+7e7RdESIoktfDc94uoUccdjLQfj+lUQmjgjx00Q8spRw+cbrbnXWIzYc6Xr4oYoaU3AHEGvA1xybcTUANnbcf4D69YLBGUvnJl5u6ITiktmhQ1IVtiwLaldRLTKzcKSS6WsoLn+fWPI6Qz5RMO+J9DGLmSfa0yoZwyaT1U98GXGj0t05DcXCSMm+p0IRi0NG8LgjIz8bgxh8IXbsT9AJBTIOkDvRywtpdx8CBCBjcoJfxlU27ues=
+  file: "/home/travis/build/cgawron/jura-esp8266/greenhouse.bin"
+  on:
+    repo: cgawron/espmqtt
+    all_branches: true
+    tags: true
+
+install:
+- mkdir -p ~/esp
+- cd ~/esp
+- wget https://dl.espressif.com/dl/xtensa-lx106-elf-linux64-1.22.0-88-gde0bdc1-4.8.5.tar.gz
+- tar -xzf xtensa-lx106-elf-linux64-1.22.0-88-gde0bdc1-4.8.5.tar.gz
+- export PATH=$PATH:$HOME/esp/xtensa-lx106-elf/bin
+- git clone --recursive https://github.com/espressif/ESP8266_RTOS_SDK.git
+- export IDF_PATH=~/esp/ESP8266_RTOS_SDK
+- python -m pip install --user -r /home/travis/esp/esp-idf/requirements.txt
+script:
+- cd $PROJECT_PATH
+- make defconfig
+- make -j4
