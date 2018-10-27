@@ -187,8 +187,6 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
 
         // enable logging via mqtt
         xEventGroupSetBits(connection_event_group, MQTT_CONNECTED_BIT);
-
-        mqtt_subscribe("pump/#");
         mqtt_subscribe("config/#");
         mqtt_subscribe("ota/version");
 
