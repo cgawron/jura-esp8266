@@ -30,7 +30,7 @@ install:
 - export PATH=$PATH:$HOME/esp/xtensa-lx106-elf/bin
 - git clone --recursive https://github.com/espressif/ESP8266_RTOS_SDK.git
 - export IDF_PATH=~/esp/ESP8266_RTOS_SDK
-- python -m pip install --user -r /home/travis/esp/esp-idf/requirements.txt
+- python -m pip install --user setuptools pyserial>=3.0 future>=0.16.0 cryptography
 script:
 - cd $PROJECT_PATH
 - make defconfig
